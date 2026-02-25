@@ -1,0 +1,8 @@
+pandas
+numpy
+yfinance
+scikit-learn
+matplotlib
+plotly
+sentence-transformers
+faiss-cpu
