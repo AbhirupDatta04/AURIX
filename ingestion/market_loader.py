@@ -10,6 +10,7 @@ Be reusable """
 import yfinance as yf
 import sqlite3
 from datetime import datetime
+from utils.loggerInfo import logger
 
 
 DB_PATH = "aurix.db"
@@ -53,13 +54,13 @@ def get_ticker_id(ticker_symbol):
 def load_market_data(ticker_symbol, period="5y"):
     ticker_symbol = ticker_symbol.upper()
 
-    print(f"Fetching market data for {ticker_symbol}...")
+    logger.info(f"Fetching market data for {ticker_symbol}...")
 
     stock = yf.Ticker(ticker_symbol)
     df = stock.history(period=period)
 
     if df.empty:
-        print("No data found.")
+        logger.warning("No data found.")
         return
 
     upsert_ticker(ticker_symbol, stock.info.get("longName"))
@@ -89,4 +90,4 @@ def load_market_data(ticker_symbol, period="5y"):
     conn.commit()
     conn.close()
 
-    print(f"Market data loaded for {ticker_symbol}.")
+    logger.info(f"Market data loaded for {ticker_symbol}.")
